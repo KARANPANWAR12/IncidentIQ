@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Tickets{% endblock %}
+{% block content %}
+
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;">
+  <div>
+    <div class="page-title">Ticket Queue</div>
+    <div class="page-sub">Track and manage all incidents</div>
+  </div>
+  <a href="{{ url_for('tickets.new_ticket') }}" class="btn-primary-custom">+ Raise Ticket</a>
+</div>
+
+<!-- FILTERS -->
+<div class="card" style="margin-bottom:1rem;padding:1rem 1.5rem;">
+  <form method="GET" style="display:flex;gap:1rem;align-items:flex-end;">
+    <div>
+      <label>Filter by Status</label>
+      <select name="status" class="form-select" style="width:160px;">
+        <option value="">All Status</option>
+        {% for s in ['Open','In Progress','Resolved','Escalated'] %}
+        <option value="{{ s }}" {% if status_filter == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label>Filter by Priority</label>
+      <select name="priority" class="form-select" style="width:160px;">
+        <option value="">All Priority</option>
+        {% for p in ['High','Medium','Low'] %}
+        <option value="{{ p }}" {% if priority_filter == p %}selected{% endif %}>{{ p }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn-primary-custom">Filter</button>
+    <a href="{{ url_for('tickets.list_tickets') }}" class="btn-ghost">Clear</a>
+  </form>
+</div>
+
+<div class="card">
+  {% if tickets %}
+  <table class="table-custom">
+    <thead>
+      <tr>
+        <th>#ID</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Raised By</th>
+        <th>Created</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in tickets %}
+      {% set sc = {'Open':'open','In Progress':'inprogress','Resolved':'resolved','Escalated':'escalated'} %}
+      <tr>
+        <td style="font-family:'JetBrains Mono',monospace;color:var(--muted);">#{{ t.id }}</td>
+        <td><a href="{{ url_for('tickets.view_ticket', ticket_id=t.id) }}">{{ t.title }}</a></td>
+        <td style="color:var(--muted);font-size:0.85rem;">{{ t.category }}</td>
+        <td><span class="badge-priority badge-{{ t.priority | lower }}">{{ t.priority }}</span></td>
+        <td><span class="badge-status badge-{{ sc[t.status] }}">{{ t.status }}</span></td>
+        <td style="color:var(--muted);">{{ t.raised_by_name }}</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--muted);">
+          {{ t.created_at.strftime('%d %b %Y') }}
+        </td>
+        <td>
+          <a href="{{ url_for('tickets.view_ticket', ticket_id=t.id) }}" class="btn-ghost" style="font-size:0.78rem;padding:0.3rem 0.7rem;">View</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div style="text-align:center;padding:3rem;color:var(--muted);">
+    <div style="font-size:2rem;margin-bottom:0.5rem;">🔍</div>
+    No tickets found for the selected filters.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

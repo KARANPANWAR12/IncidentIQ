@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}Ticket #{{ ticket.id }}{% endblock %}
+{% block content %}
+
+{% set sc = {'Open':'open','In Progress':'inprogress','Resolved':'resolved','Escalated':'escalated'} %}
+
+<div style="margin-bottom:1rem;">
+  <a href="{{ url_for('tickets.list_tickets') }}" class="btn-ghost">← Back to Tickets</a>
+</div>
+
+<div style="display:grid;grid-template-columns:1.5fr 1fr;gap:1.5rem;">
+
+  <!-- LEFT: TICKET DETAIL -->
+  <div>
+    <div class="card" style="margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--muted);margin-bottom:4px;">
+            TICKET #{{ ticket.id }} · {{ ticket.category }}
+          </div>
+          <h2 style="font-size:1.25rem;font-weight:700;">{{ ticket.title }}</h2>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <span class="badge-priority badge-{{ ticket.priority | lower }}">{{ ticket.priority }}</span>
+          <span class="badge-status badge-{{ sc[ticket.status] }}">{{ ticket.status }}</span>
+        </div>
+      </div>
+
+      <div style="background:var(--surface2);border-radius:8px;padding:1rem;font-size:0.9rem;line-height:1.6;color:var(--text);margin-bottom:1rem;">
+        {{ ticket.description }}
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;font-size:0.85rem;">
+        <div>
+          <div style="color:var(--muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;">Raised By</div>
+          <div style="color:var(--accent2);">{{ ticket.raised_by_name }}</div>
+        </div>
+        <div>
+          <div style="color:var(--muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;">Created</div>
+          <div style="font-family:'JetBrains Mono',monospace;">{{ ticket.created_at.strftime('%d %b %Y, %H:%M') }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUDIT LOG -->
+    <div class="card">
+      <div class="card-header-custom">Audit Trail</div>
+      <div style="font-size:0.9rem;font-weight:600;margin-bottom:1rem;">Change History</div>
+
+      {% if logs %}
+        {% for log in logs %}
+        <div class="audit-item">
+          <div class="audit-dot"></div>
+          <div style="flex:1;">
+            <div style="font-size:0.85rem;">
+              <span style="color:var(--accent2);">{{ log.changed_by }}</span>
+              {% if log.old_status %}
+                changed status from
+                <span class="badge-status badge-{{ sc.get(log.old_status, 'open') }}" style="font-size:0.65rem;">{{ log.old_status }}</span>
+                →
+                <span class="badge-status badge-{{ sc.get(log.new_status, 'open') }}" style="font-size:0.65rem;">{{ log.new_status }}</span>
+              {% else %}
+                <span style="color:var(--muted);">created this ticket</span>
+              {% endif %}
+            </div>
+            {% if log.note %}
+            <div style="font-size:0.8rem;color:var(--muted);margin-top:2px;">Note: {{ log.note }}</div>
+            {% endif %}
+            <div class="audit-time">{{ log.changed_at.strftime('%d %b %Y, %H:%M:%S') }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div style="color:var(--muted);font-size:0.85rem;">No history yet.</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- RIGHT: STATUS UPDATE (Admin only) -->
+  {% if current_user.role == 'admin' %}
+  <div>
+    <div class="card">
+      <div class="card-header-custom">Admin Controls</div>
+      <div style="font-size:0.9rem;font-weight:600;margin-bottom:1rem;">Update Status</div>
+
+      <form method="POST" action="{{ url_for('tickets.update_ticket', ticket_id=ticket.id) }}">
+        <div style="margin-bottom:1rem;">
+          <label>New Status</label>
+          <select name="status" class="form-select">
+            {% for s in ['Open','In Progress','Resolved','Escalated'] %}
+            <option value="{{ s }}" {% if ticket.status == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label>Note (optional)</label>
+          <textarea name="note" class="form-control" rows="3" placeholder="Add a note about this update..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary-custom" style="width:100%;">Update Status</button>
+      </form>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <div class="card-header-custom">Quick Actions</div>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem;">
+        <form method="POST" action="{{ url_for('tickets.update_ticket', ticket_id=ticket.id) }}">
+          <input type="hidden" name="status" value="Escalated">
+          <input type="hidden" name="note" value="Escalated by admin — requires senior attention">
+          <button type="submit" class="btn-ghost" style="width:100%;border-color:var(--high);color:var(--high);">🚨 Escalate Ticket</button>
+        </form>
+        <form method="POST" action="{{ url_for('tickets.update_ticket', ticket_id=ticket.id) }}">
+          <input type="hidden" name="status" value="Resolved">
+          <input type="hidden" name="note" value="Marked resolved by admin">
+          <button type="submit" class="btn-ghost" style="width:100%;border-color:var(--low);color:var(--low);">✅ Mark Resolved</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

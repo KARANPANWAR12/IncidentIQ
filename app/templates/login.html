@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="login-wrap" style="margin-left:0;margin-top:-56px;padding-top:0;">
+  <div class="login-card">
+    <div class="login-logo">Incident<span>IQ</span></div>
+    <div class="login-sub">Enterprise IT Incident Management Platform</div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for cat, msg in messages %}
+          <div class="alert-custom alert-{{ cat }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <div style="margin-bottom:1rem;">
+        <label>Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <label>Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+      </div>
+      <button type="submit" class="btn-primary-custom" style="width:100%;">Sign In</button>
+    </form>
+
+    <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);font-size:0.75rem;color:var(--muted);">
+      <div style="margin-bottom:4px;font-family:'JetBrains Mono',monospace;color:var(--accent2);">Demo Accounts</div>
+      <div>Admin: <span style="color:var(--text);">admin / admin123</span></div>
+      <div>User: <span style="color:var(--text);">employee / emp123</span></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

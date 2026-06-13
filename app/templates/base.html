@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}IncidentIQ{% endblock %} — Enterprise IT Support</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;">
+  <a class="navbar-brand" href="{{ url_for('dashboard.index') }}">Incident<span>IQ</span></a>
+  <div style="display:flex;align-items:center;gap:1.5rem;">
+    {% if current_user.is_authenticated %}
+    <span style="font-size:0.8rem;color:var(--muted);">
+      <span style="font-family:'JetBrains Mono',monospace;color:var(--accent2);">{{ current_user.username }}</span>
+      · {{ current_user.role }}
+    </span>
+    <a href="{{ url_for('auth.logout') }}" class="btn-ghost" style="padding:0.35rem 0.9rem;">Logout</a>
+    {% endif %}
+  </div>
+</nav>
+
+{% if current_user.is_authenticated %}
+<!-- SIDEBAR -->
+<div class="sidebar" style="top:56px;">
+  <div class="sidebar-label">Navigation</div>
+  <a href="{{ url_for('dashboard.index') }}" class="nav-link {% if request.endpoint == 'dashboard.index' %}active{% endif %}">
+    📊 Dashboard
+  </a>
+  <a href="{{ url_for('tickets.list_tickets') }}" class="nav-link {% if request.endpoint == 'tickets.list_tickets' %}active{% endif %}">
+    🎫 All Tickets
+  </a>
+  <a href="{{ url_for('tickets.new_ticket') }}" class="nav-link {% if request.endpoint == 'tickets.new_ticket' %}active{% endif %}">
+    ➕ Raise Ticket
+  </a>
+
+  {% if current_user.role == 'admin' %}
+  <div class="sidebar-label">Admin</div>
+  <a href="{{ url_for('tickets.list_tickets') }}?status=Escalated" class="nav-link">
+    🚨 Escalated
+  </a>
+  <a href="{{ url_for('tickets.list_tickets') }}?priority=High" class="nav-link">
+    🔴 High Priority
+  </a>
+  {% endif %}
+
+  <div class="sidebar-label">System</div>
+  <div style="padding:0.5rem 1rem;font-size:0.75rem;color:var(--muted);">
+    <div style="margin-bottom:4px;">● System Online</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;">v1.0.0</div>
+  </div>
+</div>
+{% endif %}
+
+<!-- MAIN -->
+<div class="{% if current_user.is_authenticated %}main-content{% else %}{% endif %}" style="padding-top:{% if current_user.is_authenticated %}2rem{% else %}0{% endif %}; margin-top:{% if current_user.is_authenticated %}56px{% else %}56px{% endif %};">
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div style="margin-bottom:1rem;">
+        {% for cat, msg in messages %}
+          <div class="alert-custom alert-{{ cat }}">{{ msg }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

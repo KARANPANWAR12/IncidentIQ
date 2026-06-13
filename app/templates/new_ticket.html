@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Raise Ticket{% endblock %}
+{% block content %}
+
+<div class="page-title">Raise Incident Ticket</div>
+<div class="page-sub">AI will automatically predict priority based on your description</div>
+
+<div style="display:grid;grid-template-columns:1.6fr 1fr;gap:1.5rem;">
+  <!-- FORM -->
+  <div class="card">
+    <form method="POST">
+      <div style="margin-bottom:1.25rem;">
+        <label>Incident Title *</label>
+        <input type="text" id="title" name="title" class="form-control"
+               placeholder="e.g. Server down in production environment"
+               oninput="triggerPredict()" required>
+      </div>
+
+      <div style="margin-bottom:1.25rem;">
+        <label>Category</label>
+        <select name="category" class="form-select">
+          <option>Infrastructure</option>
+          <option>Application</option>
+          <option>Database</option>
+          <option>Network</option>
+          <option>Security</option>
+          <option>Access & Auth</option>
+          <option>General</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:1.5rem;">
+        <label>Description *</label>
+        <textarea id="description" name="description" class="form-control"
+                  rows="6" placeholder="Describe the issue in detail..."
+                  oninput="triggerPredict()" required></textarea>
+      </div>
+
+      <div style="display:flex;gap:1rem;">
+        <button type="submit" class="btn-primary-custom">Submit Ticket</button>
+        <a href="{{ url_for('tickets.list_tickets') }}" class="btn-ghost">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- AI PANEL -->
+  <div>
+    <div class="card">
+      <div class="card-header-custom">AI Priority Engine</div>
+      <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.75rem;">Live Prediction</div>
+
+      <div id="ai-prediction" style="display:none;">
+        <div class="ai-box">
+          <div class="ai-label" style="margin-bottom:0.5rem;">Predicted Priority</div>
+          <span id="pred-priority" class="badge-priority">—</span>
+          <div style="margin-top:0.75rem;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+              <span style="font-size:0.75rem;color:var(--muted);">Confidence</span>
+              <span id="pred-conf" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent2);"></span>
+            </div>
+            <div class="prog-bar-wrap">
+              <div id="pred-bar" class="prog-bar" style="width:0%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="ai-placeholder" style="color:var(--muted);font-size:0.85rem;margin-top:0.5rem;">
+        Start typing the incident title to see AI prediction...
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <div class="card-header-custom">Priority Guide</div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.5rem;font-size:0.85rem;">
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <span class="badge-priority badge-high">High</span>
+          <span style="color:var(--muted);">Server down, breach, data loss</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <span class="badge-priority badge-medium">Medium</span>
+          <span style="color:var(--muted);">Slow systems, login issues, bugs</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <span class="badge-priority badge-low">Low</span>
+          <span style="color:var(--muted);">Password reset, feature requests</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
