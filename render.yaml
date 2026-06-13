@@ -7,11 +7,18 @@ services:
     envVars:
       - key: SECRET_KEY
         generateValue: true
-      - key: MYSQL_HOST
+
+      - key: MYSQLHOST
         sync: false
-      - key: MYSQL_USER
+
+      - key: MYSQLPORT
         sync: false
-      - key: MYSQL_PASSWORD
+
+      - key: MYSQLDATABASE
         sync: false
-      - key: MYSQL_DB
-        value: incident_db
+
+      - key: MYSQLUSER
+        sync: false
+
+      - key: MYSQLPASSWORD
+        sync: false
