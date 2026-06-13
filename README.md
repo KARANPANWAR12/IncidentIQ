@@ -287,10 +287,6 @@ LinkedIn: [Karan Panwar](https://www.linkedin.com/in/karan-panwar-427822353/)
 
 Live Demo: https://incidentiq-ke99.onrender.com
 
-## License
-
-This project is developed for educational and portfolio purposes.
-
 ---
 
 ## License
