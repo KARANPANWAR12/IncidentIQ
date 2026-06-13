@@ -1,426 +1,292 @@
-\# IncidentIQ – AI Powered Incident Management System
+# IncidentIQ – AI Powered Incident Management System
 
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Flask](https://img.shields.io/badge/Flask-2.2.5-black)
+![MySQL](https://img.shields.io/badge/MySQL-Railway-orange)
+![Deployment](https://img.shields.io/badge/Deployment-Render-green)
 
+IncidentIQ is a full-stack incident management platform designed to streamline IT support workflows using role-based authentication, ticket management, analytics dashboards, audit logging, and AI-powered ticket prioritization.
 
-IncidentIQ is a full-stack incident management platform designed to streamline IT support workflows using role-based authentication, ticket management, analytics dashboards, and AI-powered ticket prioritization.
+---
 
+## Live Demo
 
+🔗 https://incidentiq-ke99.onrender.com
 
-\---
+---
 
+## GitHub Repository
 
+🔗 https://github.com/KARANPANWAR12/IncidentIQ
 
-\## Live Demo
+---
 
+## Features
 
+### Authentication
 
-https://incidentiq-ke99.onrender.com
+* Admin Login
+* Employee Login
+* Session Management
+* Password Hashing using Flask-Bcrypt
 
+### Incident Management
 
+* Raise Tickets
+* View Tickets
+* Update Ticket Status
+* Priority Management
+* Category-based Incidents
+* Escalation Workflow
+* Audit Logging
 
-\---
+### AI Features
 
+* AI-based Ticket Priority Prediction
+* Automatic Priority Assignment using keyword analysis
 
+### Dashboard
 
-\## GitHub Repository
+* Total Tickets
+* Open Tickets
+* In Progress Tickets
+* Resolved Tickets
+* Escalated Tickets
+* Recent Activity Analytics
 
+### Notifications
 
+* Simulated Email Notifications
+* Audit Logs and Status Tracking
 
-https://github.com/KARANPANWAR12/IncidentIQ
+---
 
+## Tech Stack
 
+### Frontend
 
-\---
+* HTML5
+* CSS3
+* JavaScript
+* Jinja2 Templates
 
+### Backend
 
+* Python
+* Flask
+* Flask-Login
+* Flask-Bcrypt
+* Flask-MySQLdb
 
-\## Features
+### Database
 
+* MySQL
+* Railway Cloud Database
 
+### Deployment
 
-\### Authentication
+* Render
+* GitHub
 
-\- Admin Login
+---
 
-\- Employee Login
-
-\- Session Management
-
-\- Password Hashing using Flask-Bcrypt
-
-
-
-\### Incident Management
-
-\- Raise Tickets
-
-\- View Tickets
-
-\- Update Ticket Status
-
-\- Priority Management
-
-\- Category-based Incidents
-
-
-
-\### AI Features
-
-\- AI-based Ticket Priority Prediction
-
-\- Automatic Priority Assignment
-
-
-
-\### Dashboard
-
-\- Total Tickets
-
-\- Open Tickets
-
-\- In Progress Tickets
-
-\- Resolved Tickets
-
-\- Escalated Tickets
-
-\- Recent Activity
-
-
-
-\### Notifications
-
-\- Simulated Email Notifications
-
-\- Audit Logs
-
-
-
-\---
-
-
-
-\## Tech Stack
-
-
-
-\### Frontend
-
-\- HTML5
-
-\- CSS3
-
-\- JavaScript
-
-\- Jinja2
-
-
-
-\### Backend
-
-\- Python
-
-\- Flask
-
-\- Flask-Login
-
-\- Flask-Bcrypt
-
-\- Flask-MySQLdb
-
-
-
-\### Database
-
-\- MySQL
-
-\- Railway Cloud Database
-
-
-
-\### Deployment
-
-\- Render
-
-\- GitHub
-
-
-
-\---
-
-
-
-\## Project Structure
-
-
+## Project Structure
 
 ```text
-
 IncidentIQ/
-
 │
-
 ├── app/
-
 │   ├── routes/
-
 │   ├── static/
-
 │   ├── templates/
-
 │   ├── models.py
-
-│   ├── ai\_priority.py
-
-│   └── email\_simulation.py
-
+│   ├── ai_priority.py
+│   └── email_simulation.py
 │
-
-├── database\_setup.sql
-
+├── screenshots/
+├── database_setup.sql
 ├── requirements.txt
-
 ├── Procfile
-
 ├── render.yaml
-
 ├── run.py
-
-├── seed\_users.py
-
+├── seed_users.py
 └── README.md
-
 ```
 
+---
 
+## Installation
 
-\---
-
-
-
-\## Installation
-
-
-
-\### Clone Repository
-
-
+### Clone Repository
 
 ```bash
-
 git clone https://github.com/KARANPANWAR12/IncidentIQ.git
-
 cd IncidentIQ
-
 ```
 
-
-
-\### Create Virtual Environment
-
-
+### Create Virtual Environment
 
 ```bash
-
 python -m venv venv
-
-venv\\Scripts\\activate
-
+venv\Scripts\activate
 ```
 
-
-
-\### Install Dependencies
-
-
+### Install Dependencies
 
 ```bash
-
 pip install -r requirements.txt
-
 ```
 
+### Configure Environment Variables
 
-
-\### Configure Environment Variables
-
-
-
-Create:
-
-
+Create a `.env` file:
 
 ```env
-
-SECRET\_KEY=
-
+SECRET_KEY=
 MYSQLHOST=
-
 MYSQLPORT=
-
 MYSQLDATABASE=
-
 MYSQLUSER=
-
 MYSQLPASSWORD=
-
 ```
 
-
-
-\### Run Project
-
-
+### Run Project
 
 ```bash
-
 python run.py
-
 ```
 
+---
 
+## Default Credentials
 
-\---
-
-
-
-\## Default Credentials
-
-
-
-\### Admin
-
-
+### Admin
 
 Username:
 
-
-
 ```text
-
 admin
-
 ```
-
-
 
 Password:
 
-
-
 ```text
-
 admin123
-
 ```
 
-
-
-\### Employee
-
-
+### Employee
 
 Username:
 
-
-
 ```text
-
 employee
-
 ```
-
-
 
 Password:
 
-
-
 ```text
-
 emp123
-
 ```
 
+---
 
+## Database Tables
 
-\---
+* users
+* tickets
+* audit_logs
 
+---
 
+## Screenshots
 
-\## Database Tables
+### Login Page
 
+![Login Page](screenshots/login_page.png)
 
+### Employee Dashboard
 
-\- users
+![Employee Dashboard](screenshots/employee_dashboard.png)
 
-\- tickets
+### Employee Dashboard (More Tickets)
 
-\- audit\_logs
+![Employee Dashboard 2](screenshots/employee_dashboard_2.png)
 
+### Admin Dashboard
 
+![Admin Dashboard](screenshots/admin_dashboard.png)
 
-\---
+### Admin Dashboard (Escalated Tickets)
 
+![Admin Dashboard Escalated](screenshots/admin_dashboard_escalated.png)
 
+### Admin Dashboard (In Progress Tickets)
 
-\## Future Enhancements
+![Admin Dashboard In Progress](screenshots/admin_dashboard_inprogress.png)
 
+### AI Priority Prediction
 
+![AI Priority Prediction](screenshots/ai_priority_prediction.png)
 
-\- Real Email Notifications
+### Ticket Queue
 
-\- Machine Learning Based Incident Classification
+![Ticket Queue](screenshots/ticket_queue.png)
 
-\- File Attachments
+### Admin Ticket Queue
 
-\- REST API
+![Admin Ticket Queue](screenshots/admin_ticket_queue.png)
 
-\- JWT Authentication
+### Audit Trail
 
-\- Docker Support
+![Audit Trail](screenshots/audit_trail.png)
 
-\- Real-time Notifications
+### Escalated Ticket
 
+![Escalated Ticket](screenshots/escalated_ticket.png)
 
+### High Priority Filter
 
-\---
+![High Priority Filter](screenshots/high_priority_filter.png)
 
+### Resolved Ticket
 
+![Resolved Ticket](screenshots/resolved_ticket.png)
 
-\## Author
+### Final Dashboard
 
+![Resolved Dashboard](screenshots/resolved_dashboard.png)
 
+### Logout Screen
 
-\*\*Karan Panwar\*\*
+![Logout Screen](screenshots/login_page_logout.png)
 
+---
 
+## Future Enhancements
 
-B.Tech Computer Science Engineering  
+* Real Email Notifications
+* Machine Learning Based Incident Classification
+* File Attachments
+* REST API
+* JWT Authentication
+* Docker Support
+* Real-time Notifications
 
+---
+
+## Author
+
+**Karan Panwar**
+
+B.Tech Computer Science Engineering
 Graphic Era Hill University, Dehradun
 
+GitHub: https://github.com/KARANPANWAR12
 
+LinkedIn: Add your LinkedIn URL
 
-GitHub:
+---
 
-https://github.com/KARANPANWAR12
-
-
-
-LinkedIn:
-
-(Add your LinkedIn URL)
-
-
-
-\---
-
-
-
-\## License
-
-
+## License
 
 This project is developed for educational and portfolio purposes.
-
