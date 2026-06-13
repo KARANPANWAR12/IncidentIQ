@@ -278,12 +278,18 @@ emp123
 
 **Karan Panwar**
 
-B.Tech Computer Science Engineering
-Graphic Era Hill University, Dehradun
+B.Tech Computer Science Engineering  
+Graphic Era Hill University, Dehradun, Uttarakhand, India
 
 GitHub: https://github.com/KARANPANWAR12
 
-LinkedIn: Add your LinkedIn URL
+LinkedIn: [Karan Panwar](https://www.linkedin.com/in/karan-panwar-427822353/)
+
+Live Demo: https://incidentiq-ke99.onrender.com
+
+## License
+
+This project is developed for educational and portfolio purposes.
 
 ---
 
